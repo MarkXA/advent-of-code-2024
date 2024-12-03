@@ -1,6 +1,5 @@
 ﻿namespace AdventOfCode2024;
 
-using System.Linq;
 using System.Text.RegularExpressions;
 
 public partial class Day3 : IPuzzle

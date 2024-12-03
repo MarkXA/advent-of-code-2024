@@ -1,7 +1,5 @@
 ﻿namespace AdventOfCode2024;
 
-using System.Linq;
-
 public class Day2 : IPuzzle
 {
     private int[][] reports = null!;

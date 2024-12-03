@@ -1,7 +1,5 @@
 ﻿namespace AdventOfCode2024;
 
-using System.Linq;
-
 public class Day1 : IPuzzle
 {
     private IEnumerable<int> list1 = null!;

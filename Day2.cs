@@ -28,8 +28,7 @@ public class Day2 : IPuzzle
     {
         return reports.Count(report => 
             Enumerable.Range(0, report.Length).Any(n =>
-                IsSafe(report.Take(n).Concat(report.Skip(n + 1)).ToArray()
-            ))
-        );
+                IsSafe([..report.Take(n), ..report.Skip(n + 1)])
+            ));
     }
 }

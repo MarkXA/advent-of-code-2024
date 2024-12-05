@@ -31,16 +31,8 @@ public partial class Day5 : IPuzzle
     public int[] Reorder(int[] update)
     {
         var reordered = new List<int>(update);
-        while (true)
-        {
-            var order = ordering.FirstOrDefault(order => !UpdateMatchesOrder(reordered, order));
-            if (order == null)
-            {
-                return reordered.ToArray();
-            }
-            reordered.Remove(order[0]);
-            reordered.Insert(reordered.IndexOf(order[1]), order[0]);
-        }
+        reordered.Sort((a, b) => IsValid([a,b]) ? -1 : 1);
+        return reordered.ToArray();
     }
 
     public int Part1()

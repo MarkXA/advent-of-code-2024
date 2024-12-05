@@ -2,8 +2,8 @@
 
 public partial class Day5 : IPuzzle
 {
-    private int[][] ordering = null!;
-    private int[][] updates = null!;
+    private List<List<int>> ordering = null!;
+    private List<List<int>> updates = null!;
 
     public void LoadInput(string inputPath)
     {
@@ -11,39 +11,38 @@ public partial class Day5 : IPuzzle
 
         ordering = input
             .TakeWhile(s => !string.IsNullOrWhiteSpace(s))
-            .Select(s => s.Split('|').Select(int.Parse).ToArray())
-            .ToArray();
+            .Select(s => s.Split('|').Select(int.Parse).ToList())
+            .ToList();
 
         updates = input
             .SkipWhile(s => !string.IsNullOrWhiteSpace(s))
             .SkipWhile(string.IsNullOrWhiteSpace)
-            .Select(s => s.Split(',').Select(int.Parse).ToArray())
-            .ToArray();
+            .Select(s => s.Split(',').Select(int.Parse).ToList())
+            .ToList();
     }
 
-    public bool IsValid(int[] update)
+    public bool IsValid(List<int> update)
     {
         return ordering.All(order => UpdateMatchesOrder(update, order));
     }
 
-    private static bool UpdateMatchesOrder(IEnumerable<int> update, int[] order)
+    private static bool UpdateMatchesOrder(IEnumerable<int> update, List<int> order)
     {
         return !update.Contains(order[0]) || !update.Contains(order[1])
             || update.SkipWhile(n => n != order[0]).Contains(order[1]);
     }
 
-    public int[] Reorder(int[] update)
+    public List<int> Reorder(List<int> update)
     {
-        var reordered = new List<int>(update);
-        reordered.Sort((a, b) => IsValid([a, b]) ? -1 : 1);
-        return reordered.ToArray();
+        update.Sort((a, b) => IsValid([a, b]) ? -1 : 1);
+        return update;
     }
 
     public int Part1()
     {
         return updates
             .Where(IsValid)
-            .Select(u => u[u.Length / 2])
+            .Select(u => u[u.Count / 2])
             .Sum();
     }
 
@@ -52,7 +51,7 @@ public partial class Day5 : IPuzzle
         return updates
             .Where(u => !IsValid(u))
             .Select(Reorder)
-            .Select(u => u[u.Length / 2])
+            .Select(u => u[u.Count / 2])
             .Sum();
     }
 }

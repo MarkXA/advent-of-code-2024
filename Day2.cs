@@ -7,8 +7,7 @@ public class Day2 : IPuzzle
     public void LoadInput(string inputPath)
     {
         reports =
-            File.ReadAllLines(inputPath)
-            .Where(s => !string.IsNullOrWhiteSpace(s))
+            File.ReadAllLines(inputPath).RemoveEmpty()
             .Select(s => s.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray())
             .ToArray();
     }

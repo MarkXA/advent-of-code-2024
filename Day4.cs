@@ -8,9 +8,7 @@ public partial class Day4 : IPuzzle
 
     public void LoadInput(string inputPath)
     {
-        input = File.ReadAllLines(inputPath)
-            .Where(s => !string.IsNullOrWhiteSpace(s))
-            .ToArray();
+        input = File.ReadAllLines(inputPath).RemoveEmpty();
     }
 
     public int CountOccurrences(IEnumerable<string> strings, string target)
@@ -34,14 +32,12 @@ public partial class Day4 : IPuzzle
             .ToArray();
 
         var diagonal1 = Enumerable.Range(0, padded[0].Length - padding.Length)
-            .Select(n1 => String.Concat(padded.Select((s, n2) => s.Skip(n1 + n2).Take(1)).SelectMany(c => c)).Trim())
-            .Where(s => !string.IsNullOrWhiteSpace(s))
-            .ToArray();
+            .Select(n1 => string.Concat(padded.Select((s, n2) => s.Skip(n1 + n2).Take(1)).SelectMany(c => c)).Trim())
+            .RemoveEmpty();
 
         var diagonal2 = Enumerable.Range(padding.Length, padded[0].Length - padding.Length)
-            .Select(n1 => String.Concat(padded.Select((s, n2) => s.Skip(n1 - n2).Take(1)).SelectMany(c => c)).Trim())
-            .Where(s => !string.IsNullOrWhiteSpace(s))
-            .ToArray();
+            .Select(n1 => string.Concat(padded.Select((s, n2) => s.Skip(n1 - n2).Take(1)).SelectMany(c => c)).Trim())
+            .RemoveEmpty();
 
         return new[] { horizontal, vertical, diagonal1, diagonal2 }.Sum(strings => CountOccurrences(strings, "XMAS"));
     }
@@ -61,6 +57,6 @@ public partial class Day4 : IPuzzle
                     input[y + 2][x + 2]
                 ]))).ToArray();
 
-        return new[] {"MMASS", "MSAMS"}.Sum(s => CountOccurrences(stars, s));
+        return new[] { "MMASS", "MSAMS" }.Sum(s => CountOccurrences(stars, s));
     }
 }

@@ -9,11 +9,14 @@ public partial class Day5 : IPuzzle
     {
         var input = File.ReadAllLines(inputPath);
 
-        ordering = input.TakeWhile(s => !string.IsNullOrWhiteSpace(s))
+        ordering = input
+            .TakeWhile(s => !string.IsNullOrWhiteSpace(s))
             .Select(s => s.Split('|').Select(int.Parse).ToArray())
             .ToArray();
 
-        updates = input.SkipWhile(s => !string.IsNullOrWhiteSpace(s)).SkipWhile(s => string.IsNullOrWhiteSpace(s))
+        updates = input
+            .SkipWhile(s => !string.IsNullOrWhiteSpace(s))
+            .SkipWhile(string.IsNullOrWhiteSpace)
             .Select(s => s.Split(',').Select(int.Parse).ToArray())
             .ToArray();
     }
@@ -25,13 +28,14 @@ public partial class Day5 : IPuzzle
 
     private static bool UpdateMatchesOrder(IEnumerable<int> update, int[] order)
     {
-        return !update.Contains(order[0]) || !update.Contains(order[1]) || update.SkipWhile(n => n != order[0]).Contains(order[1]);
+        return !update.Contains(order[0]) || !update.Contains(order[1])
+            || update.SkipWhile(n => n != order[0]).Contains(order[1]);
     }
 
     public int[] Reorder(int[] update)
     {
         var reordered = new List<int>(update);
-        reordered.Sort((a, b) => IsValid([a,b]) ? -1 : 1);
+        reordered.Sort((a, b) => IsValid([a, b]) ? -1 : 1);
         return reordered.ToArray();
     }
 

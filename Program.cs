@@ -1,4 +1,6 @@
-﻿namespace AdventOfCode2024;
+﻿using System.Diagnostics;
+
+namespace AdventOfCode2024;
 
 public class Program
 {
@@ -20,10 +22,13 @@ public class Program
             return;
 
         var inputPath = $"input/day{day}" + (testInput ? ".test.txt" : ".txt");
+        var stopwatch = new Stopwatch();
+        stopwatch.Start();
         var answer = puzzle.Solve(inputPath, part);
+        stopwatch.Stop();
         if (answer == int.MinValue)
             return;
 
-        Console.WriteLine($"Day {day} part {part}: {answer}");
+        Console.WriteLine($"Day {day} part {part}: {answer} ({stopwatch.ElapsedMilliseconds}ms)");
     }
 }

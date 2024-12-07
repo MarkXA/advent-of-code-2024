@@ -18,7 +18,7 @@ public partial class Day4 : IPuzzle
         return strings.Sum(s => match.Matches(s).Count + matchReverse.Matches(s).Count);
     }
 
-    public int Part1()
+    public long Part1()
     {
         var width = input[0].Length;
         var height = input.Length;
@@ -42,7 +42,7 @@ public partial class Day4 : IPuzzle
         return new[] { horizontal, vertical, diagonal1, diagonal2 }.Sum(strings => CountOccurrences(strings, "XMAS"));
     }
 
-    public int Part2()
+    public long Part2()
     {
         var width = input[0].Length;
         var height = input.Length;

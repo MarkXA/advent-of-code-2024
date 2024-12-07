@@ -38,7 +38,7 @@ public partial class Day5 : IPuzzle
         return update;
     }
 
-    public int Part1()
+    public long Part1()
     {
         return updates
             .Where(IsValid)
@@ -46,7 +46,7 @@ public partial class Day5 : IPuzzle
             .Sum();
     }
 
-    public int Part2()
+    public long Part2()
     {
         return updates
             .Where(u => !IsValid(u))

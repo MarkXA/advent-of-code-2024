@@ -18,12 +18,12 @@ public class Day2 : IPuzzle
         return diffs.All(d => d >= 1 && d <= 3) || diffs.All(d => d <= -1 && d >= -3);
     }
 
-    public int Part1()
+    public long Part1()
     {
         return reports.Count(IsSafe);
     }
 
-    public int Part2()
+    public long Part2()
     {
         return reports.Count(report => 
             Enumerable.Range(0, report.Length).Any(n =>

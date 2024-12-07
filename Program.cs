@@ -26,7 +26,7 @@ public class Program
         stopwatch.Start();
         var answer = puzzle.Solve(inputPath, part);
         stopwatch.Stop();
-        if (answer == int.MinValue)
+        if (answer == long.MinValue)
             return;
 
         Console.WriteLine($"Day {day} part {part}: {answer} ({stopwatch.ElapsedMilliseconds}ms)");

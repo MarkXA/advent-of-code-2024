@@ -17,13 +17,13 @@ public partial class Day3 : IPuzzle
         input = File.ReadAllText(inputPath);
     }
 
-    public int Part1()
+    public long Part1()
     {
         var matches = matchMul().Matches(input);
         return matches.Sum(match => int.Parse(match.Groups[1].Value) * int.Parse(match.Groups[2].Value));
     }
 
-    public int Part2()
+    public long Part2()
     {
         var matches = matchAll().Matches(input);
         var answer = 0;

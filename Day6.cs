@@ -50,12 +50,12 @@ public partial class Day6 : IPuzzle
         return visited.Select(v => v.Location).Distinct().Count();
     }
 
-    public int Part1()
+    public long Part1()
     {
         return AttemptEscape(guard);
     }
 
-    public int Part2()
+    public long Part2()
     {
         var newObstacleLocations = new HashSet<Location>();
 

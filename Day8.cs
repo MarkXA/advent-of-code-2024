@@ -2,8 +2,6 @@
 
 public partial class Day8 : IPuzzle
 {
-    public record Antenna(char Code, Location Location);
-
     private List<List<char>> map = [];
     private IList<(Location loc1, Location loc2)> antennaPairs = [];
 
@@ -11,17 +9,16 @@ public partial class Day8 : IPuzzle
     {
         map = File.ReadAllLines(inputPath).RemoveEmpty().Select(s => s.ToList()).ToList();
 
-        antennaPairs = map.Index().SelectMany(
-            row => row.Item.Index().Select(
-                col => new Antenna(col.Item, new Location(col.Index, row.Index))))
+        antennaPairs = map.Index()
+            .SelectMany(
+                row => row.Item.Index().Select(
+                    col => (Code: col.Item, Loc: new Location(col.Index, row.Index))))
             .Where(a => a.Code != '.')
             .GroupBy(a => a.Code)
-            .Select(g => g.ToList())
             .Select(g => g
                 .Index()
                 .SelectMany(g1 =>
-                    g.Skip(g1.Index + 1)
-                    .Select(g2 => (loc1: g1.Item.Location, loc2: g2.Location))))
+                    g.Skip(g1.Index + 1).Select(g2 => (loc1: g1.Item.Loc, loc2: g2.Loc))))
             .SelectMany(p => p)
             .ToList();
     }
@@ -42,7 +39,7 @@ public partial class Day8 : IPuzzle
 
     public long Part2()
     {
-        HashSet<Location> antinodes = new();
+        HashSet<Location> antinodes = [];
 
         foreach (var (loc1, loc2) in antennaPairs)
         {
@@ -61,6 +58,6 @@ public partial class Day8 : IPuzzle
             }
         }
 
-        return antinodes.Count();
+        return antinodes.Count;
     }
 }

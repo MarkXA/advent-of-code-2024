@@ -2,37 +2,35 @@
 
 public partial class Day10 : IPuzzle
 {
-    private record Node(int Height, IList<Node> NextSteps);
+    private record Node(int Height, List<Node> NextSteps);
 
-    private List<List<Node>> mapNodes = [];
+    private List<Node> nodes = [];
 
     public void LoadInput(string inputPath)
     {
         var map = File.ReadAllLines(inputPath).RemoveEmpty()
-            .Select(x => x.Select(y => y - '0').ToList()).ToList();
+            .Select(row => row.Select(col => new Node(col - '0', [])).ToList())
+            .ToList();
 
-        mapNodes = map.Select(row => row.Select(col => new Node(col, [])).ToList()).ToList();
         foreach (var row in map.Index())
             foreach (var col in row.Item.Index())
             {
+                var node = col.Item;
                 var loc = new Location(col.Index, row.Index);
-                foreach (var direction in Directions.AllStraight())
-                {
-                    var adjacent = loc + direction;
-                    if (adjacent.Inside(map) && map[adjacent.Y][adjacent.X] == map[row.Index][col.Index] + 1)
-                    {
-                        mapNodes[row.Index][col.Index].NextSteps.Add(mapNodes[adjacent.Y][adjacent.X]);
-                    }
-                }
+                node.NextSteps.AddRange(Directions.AllStraight()
+                    .Select(dir => loc + dir)
+                    .Where(l => l.Inside(map))
+                    .Select(l => map[l.Y][l.X])
+                    .Where(n => n.Height == node.Height + 1));
             }
 
+        nodes = map.SelectMany(x => x).ToList();
     }
 
-    private HashSet<Node> NodesAtOrAbove(Node n)
+    private IEnumerable<Node> NodesAtOrAbove(Node n)
     {
-        return n.NextSteps.SelectMany(NodesAtOrAbove).Append(n).ToHashSet();
+        return n.NextSteps.SelectMany(NodesAtOrAbove).Append(n);
     }
-
 
     private int BranchesAbove(Node n)
     {
@@ -43,11 +41,11 @@ public partial class Day10 : IPuzzle
 
     public long Part1()
     {
-        return mapNodes.SelectMany(x => x).Where(x => x.Height == 0).Sum(node => NodesAtOrAbove(node).Count(n => n.Height == 9));
+        return nodes.Where(x => x.Height == 0).Sum(node => NodesAtOrAbove(node).Count(n => n.Height == 9));
     }
 
     public long Part2()
     {
-        return mapNodes.SelectMany(x => x).Where(x => x.Height == 0).Sum(n => BranchesAbove(n) + 1);
+        return nodes.Where(x => x.Height == 0).Sum(n => BranchesAbove(n) + 1);
     }
 }

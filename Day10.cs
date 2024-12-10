@@ -32,20 +32,13 @@ public partial class Day10 : IPuzzle
         return n.NextSteps.SelectMany(NodesAtOrAbove).Append(n);
     }
 
-    private int BranchesAbove(Node n)
-    {
-        return n.NextSteps.Count == 0
-            ? n.Height == 9 ? 0 : -1
-            : n.NextSteps.Count - 1 + n.NextSteps.Sum(BranchesAbove);
-    }
-
     public long Part1()
     {
-        return nodes.Where(x => x.Height == 0).Sum(node => NodesAtOrAbove(node).Count(n => n.Height == 9));
+        return nodes.Where(x => x.Height == 0).Sum(node => NodesAtOrAbove(node).Where(n => n.Height == 9).Distinct().Count());
     }
 
     public long Part2()
     {
-        return nodes.Where(x => x.Height == 0).Sum(n => BranchesAbove(n) + 1);
+        return nodes.Where(x => x.Height == 0).Sum(node => NodesAtOrAbove(node).Where(n => n.Height == 9).Count());
     }
 }

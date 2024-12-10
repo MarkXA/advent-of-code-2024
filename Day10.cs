@@ -24,7 +24,7 @@ public partial class Day10 : IPuzzle
                     .Where(n => n.Height == node.Height + 1));
             }
 
-        nodes = map.SelectMany(x => x).ToList();
+        nodes = map.SelectMany(n => n).ToList();
     }
 
     private IEnumerable<Node> NodesAtOrAbove(Node n)
@@ -34,13 +34,13 @@ public partial class Day10 : IPuzzle
 
     public long Part1()
     {
-        return nodes.Where(x => x.Height == 0).Sum(
+        return nodes.Where(n => n.Height == 0).Sum(
             node => NodesAtOrAbove(node).Where(n => n.Height == 9).Distinct().Count());
     }
 
     public long Part2()
     {
-        return nodes.Where(x => x.Height == 0).Sum(
+        return nodes.Where(n => n.Height == 0).Sum(
             node => NodesAtOrAbove(node).Where(n => n.Height == 9).Count());
     }
 }

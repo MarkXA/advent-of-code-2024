@@ -34,11 +34,13 @@ public partial class Day10 : IPuzzle
 
     public long Part1()
     {
-        return nodes.Where(x => x.Height == 0).Sum(node => NodesAtOrAbove(node).Where(n => n.Height == 9).Distinct().Count());
+        return nodes.Where(x => x.Height == 0).Sum(
+            node => NodesAtOrAbove(node).Where(n => n.Height == 9).Distinct().Count());
     }
 
     public long Part2()
     {
-        return nodes.Where(x => x.Height == 0).Sum(node => NodesAtOrAbove(node).Where(n => n.Height == 9).Count());
+        return nodes.Where(x => x.Height == 0).Sum(
+            node => NodesAtOrAbove(node).Where(n => n.Height == 9).Count());
     }
 }

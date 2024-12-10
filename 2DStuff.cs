@@ -2,6 +2,10 @@ namespace AdventOfCode2024;
 
 public enum Direction { Up = 0, Right = 1, Down = 2, Left = 3 }
 
+public static class Directions {
+    public static Direction[] AllStraight() => [ Direction.Up, Direction.Right, Direction.Down, Direction.Left ]; 
+}
+
 public record Delta(int X, int Y)
 {
     public static Delta operator -(Delta d) => new(-d.X, -d.Y);

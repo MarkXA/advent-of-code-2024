@@ -485,3 +485,4 @@ $RECYCLE.BIN/
 
 # Advent of Code
 input/
+DayTemplate.cs
